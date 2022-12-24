@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 // define global variables used for counting quick-sort comparisons
-#define INPUT_SIZE_ 10
+#define INPUT_SIZE_ 12
 #define N_OF_STATS_ 3
 
 int total_perms_    = 0;
@@ -211,8 +211,7 @@ int factorial(int n) {
 /**
  * Fill array with 0's
 */
-void zeroOutArray(int a[], int size) {
-    // int size = sizeof(a) / sizeof(a[0]);
+void zeroOutArray(unsigned long long a[], int size) {
     for (int i = 0; i < size; i++) {
         a[i] = 0;
     }
@@ -222,14 +221,14 @@ void zeroOutArray(int a[], int size) {
  * Calculate and print the weighted averages
  * we use the known weighted average function that can be found in https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
 */
-void printStats(int stats[], float percentage, char algorithmName[]) {
+void printStats(unsigned long long stats[], float percentage, char algorithmName[]) {
     // define numerators helper variables
     float nAvg = 0, nBestAvg = 0, nWorstAvg = 0;
 
     // define denominators
     float dAvg = 0, dBestAvg = 0, dWorstAvg = 0;
 
-    int bestAvgCounter = 0, worstAvgCounter = 0, remaining = 0;
+    int remaining = 0;
     int limit_count = total_perms_ * percentage;  // where to stop counting
 
     for (int i = 0; i < max_comparison_possible_; i++) {
@@ -272,7 +271,7 @@ void printStats(int stats[], float percentage, char algorithmName[]) {
 
     // print statistics in an elegant way
     printCharArray(algorithmName);
-    printf("\t %f \t %f \t %f \t %f \n" , percentage, (nAvg / dAvg), (nBestAvg / dBestAvg), (nWorstAvg / dWorstAvg));
+    printf("\t %f \t %f \t %f \t\t %f \n" , percentage, (nAvg / dAvg), (nBestAvg / dBestAvg), (nWorstAvg / dWorstAvg));
 }
 
 int main() {
@@ -290,8 +289,8 @@ int main() {
         max_comparison_possible_ += j;
     }
 
-    int stats_1_[max_comparison_possible_];
-    int stats_2_[max_comparison_possible_];
+    unsigned long long stats_1_[max_comparison_possible_];
+    unsigned long long stats_2_[max_comparison_possible_];
 
     zeroOutArray(stats_1_, max_comparison_possible_);
     zeroOutArray(stats_2_, max_comparison_possible_);
@@ -311,7 +310,7 @@ int main() {
     }
 
     // provide statistics per percentile
-    printf("Algorithm \t Percentile \t Average \t\t Best-Average \t Worst-Average \n");
+    printf("Algorithm \t\t Percentile  Average \t Best-Average \t Worst-Average \n");
     for (i = 0; i < N_OF_STATS_; i++) {
         printStats(stats_1_, percentiles_[i], "Quick-Sort-1");
         printStats(stats_2_, percentiles_[i], "Quick-Sort-2");
